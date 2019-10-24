@@ -1,6 +1,6 @@
 #textwidth = 400px  /2= 233
 
-plot_table <- function(t1,name="table-plot",xlab=NULL,ylab="Q",pdf=NULL,columns=NULL,max_value=NULL,draw_axis=c('s','s'),leg_pos=c('topright',0.01,0.03)){
+plot_table <- function(t1,name="table-plot",xlab=NULL,ylab="Q",pdf=NULL,columns=NULL,max_value=NULL,draw_axis=c('s','s'),leg_pos=c('topright',0.01,0.03),log=FALSE){
 	if(!is.null(pdf)){
 		w <- as.double(pdf[2])
 		h <- as.double(pdf[3])
@@ -18,6 +18,10 @@ plot_table <- function(t1,name="table-plot",xlab=NULL,ylab="Q",pdf=NULL,columns=
 	if(is.null(max_value))
 		max_value <- max(t1[,2:coln],na.rm=T)#max(as.real(t1[,2:coln]),na.rm=T)
 	#print(max_value)
+	if(log){
+		t1[2:coln] = log(t1[2:coln])
+		max_value = log(max_value)
+	}
 	if(is.numeric(t1[1,1])){
 		plot(t1[,2]~t1[,1],ann=FALSE,type="n",ylim=c(0,max_value*1.05),xaxt=draw_axis[1],yaxt=draw_axis[2])
 		for( column in 2:coln ){

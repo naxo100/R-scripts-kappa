@@ -25,7 +25,7 @@ plot_folder <- function(folder=".",ptrn="*.out",labs=c("Title","X","Y"),cnames=N
 		tabla <- read.table(file,col.names=cnames)
 		tabla <- tabla#[1:700,]
 		
-		max_Y <- max(max_Y,max(tabla[2:length(tabla)]))
+		max_Y <- max(max_Y,max(tabla[2:length(tabla)],na.rm = TRUE))
 		tablas[[length(tablas)+1]] <- list(name,tabla)
 	}
 	#return(tablas)
