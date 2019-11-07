@@ -2,7 +2,7 @@
 
 try(source("util_functions.R"))
 
-plot_file <- function(fname,size=1,labs=NULL,pdf=NULL,max_Y=NULL, draw_axis=c('s','s'),leg_pos=c('topright',0.01,0.03),loc_legend=-1,cnames=NULL){
+plot_file <- function(fname,size=1,labs=NULL,pdf=NULL,max_Y=NULL, draw_axis=c('s','s'),leg_pos=c('topright',0.01,0.03),loc_legend=-1,cnames=NULL,xlims=NULL){
 	cnames <- kappa_colnames(files[1])
 	t1 = read.table(fname)
 	if(!is.null(pdf)){
@@ -42,13 +42,15 @@ plot_file <- function(fname,size=1,labs=NULL,pdf=NULL,max_Y=NULL, draw_axis=c('s
 		#}
 		
 	
-		if(!is.null(xlim)){
+		if(!is.null(xlims)){
 			last <- t1[length(t1[,1]),]
-			last[,1] <- xlim[2]
+			last[,1] <- xlims[2]
 			t1[length(t1[,1])+1,] <- last
 		}
+		else
+			xlims = c(min(t1[1]),max(t1[1]))
 		
-		plot(t1[,2]~t1[,1],ann=FALSE,type="n",ylim=c(0,max_Y),xlim=xlim,xaxt=plotx,yaxt=ploty)
+		plot(t1[,2]~t1[,1],ann=FALSE,type="n",ylim=c(0,max_Y),xlim=xlims,xaxt=plotx,yaxt=ploty)
 		for( column in 0:(coln-1) ) {
 			lines(t1[,column+2+n*coln]~t1[,1],lwd=1,col=2+column)
 		}
@@ -56,7 +58,7 @@ plot_file <- function(fname,size=1,labs=NULL,pdf=NULL,max_Y=NULL, draw_axis=c('s
 		leg_labels = matrix(unlist(strsplit(cnames[(2+n*coln):(1+n*coln+coln)],split=":")),nrow=2)
 		title(leg_labels[1,1],outer=FALSE)
 		if( counter == loc_legend)
-			legend("topright",cex=1,pch=1,legend=leg_labels[2,],col=2:(coln+1))
+			legend("topright",cex=1,pch=1,legend=leg_labels,col=2:(coln+1))
 		counter <- counter + 1
 	}
 	title(labs[1],xlab=labs[2],ylab=labs[3],outer=TRUE,cex.main=2,cex.lab=2.0)

@@ -7,11 +7,12 @@ plot_folder <- function(folder=".",ptrn="*.out",labs=c("Title","X","Y"),cnames=N
 		cnames <- kappa_colnames(files[1])
 	coln <- length(cnames)
 	size <- length(files)
-	side <- ceiling(sqrt(size))
+	size_h <- ceiling(sqrt(size))
+	size_w <- ceiling(size/size_h)
 	if(size == 2)
 		par(mfrow=c(1,2))
 	else
-		par(mfrow=c(side,side))
+		par(mfrow=c(size_w,size_h))
 	par(mar=c(1,1.5,1,0.5),oma=c(5,5,3,2))
 	counter <- 0
 	tablas <- list()
@@ -34,8 +35,8 @@ plot_folder <- function(folder=".",ptrn="*.out",labs=c("Title","X","Y"),cnames=N
 		t1 <- tabla[[2]]
 		
 		if (size > 1){
-			if (counter %% side == 0 ) ploty <- "s" else ploty <- "n"
-			if (counter >= size-side) plotx <- "s" else plotx <- "n"
+			if (counter %% size_h == 0 ) ploty <- "s" else ploty <- "n"
+			if (counter >= size-size_h) plotx <- "s" else plotx <- "n"
 		}
 		else {
 			ploty <- "s"
